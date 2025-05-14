@@ -23,4 +23,30 @@ public class Major {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "college_id", foreignKey = @ForeignKey(name = "fk_major_college"))
 	private College college;
+
+	@Column(columnDefinition = "TEXT")
+	private String introduction;
+
+	private String location;
+
+	private String phone;
+
+	private String fax;
+
+	@Column(name = "office_hours")
+	private String officeHours;
+
+	private String future;
+
+	@Column(name = "special_programs")
+	private String specialPrograms;
+
+	private String clubs;
+
+	private String career;
+
+	private String certifications;
+
+	@Column(name = "research_center")
+	private String researchCenter;
 }
