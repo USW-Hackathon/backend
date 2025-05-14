@@ -19,4 +19,7 @@ public class BoardPostCreateRequestDto {
 
 	@Schema(description = "답글일 경우 원글 ID, 일반 게시글이면 null", example = "null", nullable = true)
 	private Long parentId;
+
+	@Schema(description = "1일경우 뉴스 2일경우 학생 3일경우 졸업작품")
+	private int categoryId;
 }
