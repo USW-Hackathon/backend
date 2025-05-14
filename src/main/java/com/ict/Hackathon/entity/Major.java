@@ -2,6 +2,7 @@ package com.ict.Hackathon.entity;
 
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,6 +23,7 @@ public class Major {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "college_id", foreignKey = @ForeignKey(name = "fk_major_college"))
+	@JsonIgnore
 	private College college;
 
 	@Column(columnDefinition = "TEXT")
@@ -36,9 +38,10 @@ public class Major {
 	@Column(name = "office_hours")
 	private String officeHours;
 
+	@Column(columnDefinition = "TEXT")
 	private String future;
 
-	@Column(name = "special_programs")
+	@Column(name = "special_programs",columnDefinition = "TEXT")
 	private String specialPrograms;
 
 	private String clubs;

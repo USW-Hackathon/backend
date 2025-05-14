@@ -14,6 +14,6 @@ public class CourseService {
 	private final CourseRepository courseRepository;
 
 	public List<Course> majorCourse(Long majorId, Integer grade) {
-		return courseRepository.findByMajorIdAndGrade(majorId,grade).orElseThrow(()-> new IllegalArgumentException());
+		return courseRepository.findAllByMajorIdAndGrade(majorId, grade);
 	}
 }

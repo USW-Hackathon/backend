@@ -1,5 +1,6 @@
 package com.ict.Hackathon.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -17,6 +18,7 @@ public class Course {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "major_id", foreignKey = @ForeignKey(name = "fk_course_major"))
+	@JsonIgnore
 	private Major major;
 
 	@Column
