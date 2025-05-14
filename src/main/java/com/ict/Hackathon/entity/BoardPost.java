@@ -26,7 +26,7 @@ public class BoardPost {
 	private String content;
 
 	@Column(name = "category_id")
-	private int categroryId;
+	private int categoryId;
 
 	private String writer;
 
