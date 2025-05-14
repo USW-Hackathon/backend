@@ -23,7 +23,7 @@ public class BoardPostDto {
 			.id(post.getId())
 			.title(post.getTitle())
 			.content(post.getContent())
-			.categoryId(post.getCategroryId())
+			.categoryId(post.getCategoryId())
 			.writer(post.getWriter())
 			.createdAt(post.getCreatedAt())
 			.viewCount(post.getViewCount())

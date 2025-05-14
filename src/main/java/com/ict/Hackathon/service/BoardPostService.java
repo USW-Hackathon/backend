@@ -47,7 +47,7 @@ public class BoardPostService {
 		BoardPost post = BoardPost.builder()
 			.title(requestDto.getTitle())
 			.content(requestDto.getContent())
-			.categroryId(requestDto.getCategoryId())
+			.categoryId(requestDto.getCategoryId())
 			.writer(requestDto.getWriter())
 			.createdAt(LocalDateTime.now())
 			.viewCount(0)
