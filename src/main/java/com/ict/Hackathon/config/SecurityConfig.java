@@ -95,14 +95,18 @@ public class SecurityConfig {
 
 	@Bean
 	public CorsConfigurationSource corsConfigurationSource() {
-		CorsConfiguration configuration = new CorsConfiguration();
-		configuration.setAllowedOriginPatterns(Arrays.asList("http://localhost:3000","*"));
-		configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")); // 허용 메서드
-		configuration.setAllowedHeaders(Arrays.asList("Authorization","verify", "Content-Type","cookie")); // 허용 헤더
-		configuration.setExposedHeaders(Arrays.asList("Authorization","verify")); // 클라이언트가 접근할 수 있는 응답 헤더
-		configuration.setAllowCredentials(true); // 자격증명 허용
-		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		source.registerCorsConfiguration("/**", configuration);
-		return source;
+	    CorsConfiguration configuration = new CorsConfiguration();
+	    
+	    // ✅ 와일드카드 제거
+	    configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000")); // 또는 실제 배포 주소
+	    
+	    configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
+	    configuration.setAllowedHeaders(Arrays.asList("Authorization", "verify", "Content-Type", "cookie"));
+	    configuration.setExposedHeaders(Arrays.asList("Authorization", "verify"));
+	    configuration.setAllowCredentials(true);
+	
+	    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+	    source.registerCorsConfiguration("/**", configuration);
+	    return source;
 	}
 }
