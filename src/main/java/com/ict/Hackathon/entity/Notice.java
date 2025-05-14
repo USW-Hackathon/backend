@@ -27,6 +27,9 @@ public class Notice {
 
 	private int viewCount;
 
+	@Column(nullable = false)
+	private int category; // 1: 취업, 2: 학과, 3: 대학원
+
 	public void increaseViewCount() {
 		this.viewCount++;
 	}

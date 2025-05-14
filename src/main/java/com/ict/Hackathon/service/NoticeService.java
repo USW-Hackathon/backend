@@ -29,4 +29,9 @@ public class NoticeService {
 		notice.increaseViewCount();
 		return NoticeDto.from(notice);
 	}
+
+	public Page<NoticeDto> getByCategory(int category, Pageable pageable) {
+		return noticeRepository.findAllByCategory(category, pageable)
+			.map(NoticeDto::from);
+	}
 }
