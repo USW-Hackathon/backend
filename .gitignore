@@ -36,3 +36,5 @@ out/
 ### VS Code ###
 .vscode/
 
+# 임시로 .jar push 허용
+!build/libs/Hackathon-0.0.1-SNAPSHOT.jar
