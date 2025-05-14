@@ -25,21 +25,23 @@ public class BoardPost {
 	@Column(columnDefinition = "TEXT")
 	private String content;
 
+	@Column(name = "category_id")
+	private int categoryId;
+
 	private String writer;
 
 	private LocalDateTime createdAt;
 
 	private int viewCount;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "parent_id")
-	private BoardPost parent; // 원글이 존재하면 참조 (답글)
+	@Column(name = "group_id")
+	private Long groupId;
 
 	public void increaseViewCount() {
 		this.viewCount++;
 	}
 
-	public boolean isReply() {
-		return this.parent != null;
+	public void  ChangeGroupId() {
+		this.groupId = this.id;
 	}
 }

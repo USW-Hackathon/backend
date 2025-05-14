@@ -2,6 +2,7 @@ package com.ict.Hackathon.service;
 
 import com.ict.Hackathon.dto.BoardPostCreateRequestDto;
 import com.ict.Hackathon.dto.BoardPostDto;
+import com.ict.Hackathon.dto.BoardPostDtoList;
 import com.ict.Hackathon.entity.BoardPost;
 import com.ict.Hackathon.repository.BoardPostRepository;
 import java.time.LocalDateTime;
@@ -34,22 +35,31 @@ public class BoardPostService {
 
 	@Transactional
 	public void create(BoardPostCreateRequestDto requestDto) {
-		BoardPost parent = null;
-		if (requestDto.getParentId() != null) {
-			parent = postRepository.findById(requestDto.getParentId())
-				.orElseThrow(() -> new IllegalArgumentException("부모 글이 존재하지 않습니다."));
+		Long parentId = requestDto.getParentId();
+		Long groupId = null;
+
+		if (parentId != null) {
+			groupId = postRepository.findById(parentId)
+				.orElseThrow(() -> new IllegalArgumentException("부모 글이 존재하지 않습니다."))
+				.getId();
 		}
 
 		BoardPost post = BoardPost.builder()
 			.title(requestDto.getTitle())
 			.content(requestDto.getContent())
+			.categoryId(requestDto.getCategoryId())
 			.writer(requestDto.getWriter())
 			.createdAt(LocalDateTime.now())
 			.viewCount(0)
-			.parent(parent)
+			.groupId(groupId)  // 일단 null일 수도 있음
 			.build();
 
 		postRepository.save(post);
+
+		// 부모 없으면 groupId를 자기 자신의 id로 갱신
+		if (parentId == null) {
+			post.ChangeGroupId();  // setter 사용
+		}
 	}
 
 
@@ -60,32 +70,9 @@ public class BoardPostService {
 		postRepository.deleteById(id);
 	}
 
-	public Page<BoardPostDto> getFlattenedPagedList(Pageable pageable) {
-		List<BoardPost> allPosts = postRepository.findAll(Sort.by(Sort.Order.desc("createdAt")));
-
-		// 원글-답글 정렬된 리스트 구성
-		List<BoardPostDto> flatList = new ArrayList<>();
-		Map<Long, List<BoardPost>> replyMap = allPosts.stream()
-			.filter(p -> p.getParent() != null)
-			.collect(Collectors.groupingBy(p -> p.getParent().getId()));
-
-		allPosts.stream()
-			.filter(p -> p.getParent() == null)
-			.forEach(parent -> {
-				flatList.add(BoardPostDto.from(parent)); // 원글 추가
-				List<BoardPost> replies = replyMap.getOrDefault(parent.getId(), List.of());
-				replies.stream()
-					.sorted(Comparator.comparing(BoardPost::getCreatedAt))
-					.map(BoardPostDto::from)
-					.forEach(flatList::add); // 답글 추가
-			});
-
-		// 페이징 처리 (flatList 기준으로 잘라내기)
-		int start = (int) pageable.getOffset();
-		int end = Math.min(start + pageable.getPageSize(), flatList.size());
-		List<BoardPostDto> pageContent = flatList.subList(start, end);
-
-		return new PageImpl<>(pageContent, pageable, flatList.size());
+	public BoardPostDtoList getFlattenedPagedList(Pageable pageable, int categoryId) {
+		Page<BoardPost> allPosts = postRepository.findAllByCategoryId(categoryId,pageable);
+		return new BoardPostDtoList(allPosts.getContent(),pageable.getPageNumber()+1,pageable.getPageSize(),allPosts.getTotalPages());
 	}
 
 
