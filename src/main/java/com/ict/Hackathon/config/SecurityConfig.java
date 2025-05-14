@@ -26,8 +26,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 public class SecurityConfig {
 
 	private final JwtTokenProvider jwtTokenProvider;
-	@Value("${cors.allowed-origin}")
-	private String allowedOrigin;
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -87,22 +85,22 @@ public class SecurityConfig {
 	public PasswordEncoder passwordEncoder() {
 		return PasswordEncoderFactories.createDelegatingPasswordEncoder(); // 패스워드 인코딩
 	}
+
 	@Bean
 	public AuthenticationManager authenticationManager(
 		AuthenticationConfiguration authenticationConfiguration) throws Exception {
 		return authenticationConfiguration.getAuthenticationManager();
 	}
+
 	@Bean
 	public CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
-		configuration.setAllowedOrigins(Arrays.asList(allowedOrigin)); // 허용할 서버 IP
-		configuration.setAllowedMethods(
-			Arrays.asList("GET", "POST", "PUT", "DELETE", "PATCH")); // 허용할 HTTP 메서드
+		configuration.addAllowedOriginPattern("*"); // 모든 origin 허용
+		configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "PATCH"));
 		configuration.setAllowedHeaders(
-			Arrays.asList("Authorization", "Content-Type", "X-Requested-With",
-				"cookie")); // 허용할 요청 헤더
-		configuration.setExposedHeaders(Arrays.asList("Authorization", "verify")); // 노출할 응답 헤더
-		configuration.setAllowCredentials(true); // 자격 증명 허용
+			Arrays.asList("Authorization", "Content-Type", "X-Requested-With", "cookie"));
+		configuration.setExposedHeaders(Arrays.asList("Authorization", "verify"));
+		configuration.setAllowCredentials(true);
 
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/**", configuration);
