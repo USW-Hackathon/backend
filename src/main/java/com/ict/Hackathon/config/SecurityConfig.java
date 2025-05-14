@@ -95,13 +95,11 @@ public class SecurityConfig {
 	@Bean
 	public CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
-		configuration.addAllowedOriginPattern("*"); // 모든 origin 허용
-		configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "PATCH"));
-		configuration.setAllowedHeaders(
-			Arrays.asList("Authorization", "Content-Type", "X-Requested-With", "cookie"));
-		configuration.setExposedHeaders(Arrays.asList("Authorization", "verify"));
-		configuration.setAllowCredentials(true);
-
+		configuration.setAllowedOriginPatterns(Arrays.asList("http://localhost:3000","*"));
+		configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")); // 허용 메서드
+		configuration.setAllowedHeaders(Arrays.asList("Authorization","verify", "Content-Type","cookie")); // 허용 헤더
+		configuration.setExposedHeaders(Arrays.asList("Authorization","verify")); // 클라이언트가 접근할 수 있는 응답 헤더
+		configuration.setAllowCredentials(true); // 자격증명 허용
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/**", configuration);
 		return source;
