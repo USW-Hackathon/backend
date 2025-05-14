@@ -31,6 +31,7 @@ public class SecurityConfig {
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		// CSRF 비활성화
 		http
+			.cors(withDefaults())
 			.csrf(csrf -> csrf.disable())  // CSRF 보호 비활성화
 			.authorizeHttpRequests(authz -> authz
 				// Swagger 경로 허용
