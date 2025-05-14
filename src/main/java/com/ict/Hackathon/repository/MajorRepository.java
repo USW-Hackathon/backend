@@ -12,6 +12,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MajorRepository extends JpaRepository<Major,Long> {
 
-	@Query("select MajorDto(m.id,m.name) FROM Major m where m.college.id = :collegeId")
+	@Query("select  new com.ict.Hackathon.dto.MajorDto(m.id, m.name) FROM Major m where m.college.id = :collegeId")
 	List<MajorDto> findByCollege(@Param("collegeId") Long collegeId);
 }
