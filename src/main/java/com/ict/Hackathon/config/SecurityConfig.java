@@ -97,13 +97,12 @@ public class SecurityConfig {
 	public CorsConfigurationSource corsConfigurationSource() {
 	    CorsConfiguration configuration = new CorsConfiguration();
 	    
-	    // ✅ 와일드카드 제거
-	    configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000")); // 또는 실제 배포 주소
+	    configuration.setAllowedOrigins(Arrays.asList("*)); 
 	    
 	    configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
 	    configuration.setAllowedHeaders(Arrays.asList("Authorization", "verify", "Content-Type", "cookie"));
 	    configuration.setExposedHeaders(Arrays.asList("Authorization", "verify"));
-	    configuration.setAllowCredentials(true);
+	    configuration.setAllowCredentials(false);
 	
 	    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 	    source.registerCorsConfiguration("/**", configuration);
