@@ -3,9 +3,9 @@ package com.ict.Hackathon.service;
 import com.ict.Hackathon.dto.NoticeDto;
 import com.ict.Hackathon.entity.Notice;
 import com.ict.Hackathon.repository.NoticeRepository;
-import java.util.List;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,10 +15,9 @@ public class NoticeService {
 
 	private final NoticeRepository noticeRepository;
 
-	public List<NoticeDto> getAll() {
-		return noticeRepository.findAll().stream()
-			.map(NoticeDto::from)
-			.collect(Collectors.toList());
+	public Page<NoticeDto> getAll(Pageable pageable) {
+		return noticeRepository.findAll(pageable)
+			.map(NoticeDto::from);
 	}
 
 	@Transactional
