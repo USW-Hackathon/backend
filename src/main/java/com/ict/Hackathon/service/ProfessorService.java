@@ -19,8 +19,14 @@ public class ProfessorService {
 			.collect(Collectors.toList());
 	}
 
-	public List<ProfessorDto> getByDivisionAndMajor(String division, String majorName) {
+	public List<ProfessorDto> getByDivisionAndMajor(int division, int majorName) {
 		return professorRepository.findByDivisionAndMajorName(division, majorName).stream()
+			.map(ProfessorDto::from)
+			.collect(Collectors.toList());
+	}
+
+	public List<ProfessorDto> getByDivision(int division) {
+		return professorRepository.findByDivision(division).stream()
 			.map(ProfessorDto::from)
 			.collect(Collectors.toList());
 	}
