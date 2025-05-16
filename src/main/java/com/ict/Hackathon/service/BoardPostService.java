@@ -76,4 +76,8 @@ public class BoardPostService {
 	}
 
 
+	public BoardPostDtoList getAllPagedList(Pageable pageable) {
+		Page<BoardPost> allPosts = postRepository.findAll(pageable);
+		return new BoardPostDtoList(allPosts.getContent(),pageable.getPageNumber()+1,pageable.getPageSize(),allPosts.getTotalPages());
+	}
 }

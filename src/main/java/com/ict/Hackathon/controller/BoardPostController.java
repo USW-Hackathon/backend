@@ -33,7 +33,12 @@ public class BoardPostController {
 	public BoardPostDtoList getPagedList(@RequestParam(defaultValue = "1") int page,
 		@RequestParam(defaultValue = "10") int size,@RequestParam("categoryId") int categoryId) {
 		Pageable pageable = PageRequest.of(page - 1, size, Sort.by("groupId").descending());
-		return postService.getFlattenedPagedList(pageable,categoryId);
+		if(categoryId==0){
+			return postService.getAllPagedList(pageable);
+
+		}else{
+			return postService.getFlattenedPagedList(pageable,categoryId);
+		}
 	}
 
 	@GetMapping("/{id}")
