@@ -23,10 +23,28 @@ public class ProfessorController {
 	@GetMapping
 	@Operation(summary = "교수 목록 조회", description = "division(학부), major(전공)으로 필터링된 교수 목록을 조회합니다.")
 	public List<ProfessorDto> getProfessors(
-		@Parameter(description = "학부 이름", example = "컴퓨터학부")
+		@Parameter(
+			description = """
+        전공 번호로 조회합니다.  
+        1: 컴퓨터학부
+        2: 정보통신학부 
+        3: 데이터과학부
+        4: 클라우드융복합
+        """, example = "1"
+		)
 		@RequestParam(required = false) String division,
 
-		@Parameter(description = "전공 이름", example = "컴퓨터SW")
+		@Parameter(
+			description = """
+        전공 번호로 조회합니다.  
+        1: 컴퓨터SW  
+        2: 미디어SW  
+        3: 정보보호  
+        4: 정보통신  
+        5: 데이터과학  
+        6: 클라우드융합
+        """, example = "1"
+		)
 		@RequestParam(required = false) String major) {
 
 		if (division != null && major != null) {

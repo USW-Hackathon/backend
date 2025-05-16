@@ -8,7 +8,9 @@ import lombok.Getter;
 @Builder
 @AllArgsConstructor
 public class TokenResponseDto {
+
 	private String grantType;
 	private String accessToken;
 	private String refreshToken;
+	private String userName;
 }

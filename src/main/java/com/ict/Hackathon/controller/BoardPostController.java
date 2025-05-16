@@ -29,7 +29,7 @@ public class BoardPostController {
 	private final BoardPostService postService;
 
 	@GetMapping
-	@Operation(summary = "답글 포함 전체 게시글 조회 (10개 단위)")
+	@Operation(summary = "답글 포함 전체 게시글 조회 (10개 단위) - (1:뉴스, 2:학생, 3:졸업작품)")
 	public BoardPostDtoList getPagedList(@RequestParam(defaultValue = "1") int page,
 		@RequestParam(defaultValue = "10") int size,@RequestParam("categoryId") int categoryId) {
 		Pageable pageable = PageRequest.of(page - 1, size, Sort.by("groupId").descending());

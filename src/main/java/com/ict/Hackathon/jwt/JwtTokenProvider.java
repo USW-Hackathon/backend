@@ -17,6 +17,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
 @Slf4j
 @Component
 public class JwtTokenProvider {
@@ -46,7 +47,7 @@ public class JwtTokenProvider {
 		String subject = authentication.getName();
 
 		String accessToken = createAccessToken(subject, authorities, now);
-		String refreshToken = createRefreshToken(now);
+		String refreshToken = createRefreshToken(subject, now);
 
 		return TokenResponseDto.builder()
 			.grantType("Bearer")
@@ -66,8 +67,9 @@ public class JwtTokenProvider {
 			.compact();
 	}
 
-	private String createRefreshToken(long now) {
+	private String createRefreshToken(String subject, long now) {
 		return Jwts.builder()
+			.subject(subject)
 			.expiration(new Date(now + refreshTokenExpiry))
 			.signWith(key, SignatureAlgorithm.HS256)
 			.compact();
@@ -116,5 +118,14 @@ public class JwtTokenProvider {
 			return bearerToken.substring(BEARER_PREFIX.length());
 		}
 		return null;
+	}
+
+	public String getSubjectFromRefreshToken(String token) {
+		try {
+			return Jwts.parser().setSigningKey(key).build().parseClaimsJws(token).getBody()
+				.getSubject();
+		} catch (Exception e) {
+			throw new InvalidTokenException();
+		}
 	}
 }

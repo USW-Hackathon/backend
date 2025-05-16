@@ -7,6 +7,8 @@ import com.ict.Hackathon.service.MemberService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,12 +26,22 @@ public class MemberController {
 	private final CookieService cookieService;
 
 	@PostMapping("/login")
-	public ResponseEntity<Void> login(@RequestBody LoginRequestDto loginDto, HttpServletResponse response) {
-		TokenResponseDto tokenResponse = memberService.login(loginDto.getMemberId(), loginDto.getPassword());
+	public ResponseEntity<Map<String, String>> login(@RequestBody LoginRequestDto loginDto,
+		HttpServletResponse response) {
+		TokenResponseDto tokenResponse = memberService.login(loginDto.getMemberId(),
+			loginDto.getPassword());
 
+		// accessToken을 헤더에 추가
 		response.setHeader("Authorization", "Bearer " + tokenResponse.getAccessToken());
+
+		// refreshToken은 쿠키에 추가
 		response.addCookie(cookieService.addRefreshTokenCookie(tokenResponse.getRefreshToken()));
 
-		return ResponseEntity.ok().build();
+		// userName만 body로 반환
+		Map<String, String> body = new HashMap<>();
+		body.put("userName", tokenResponse.getUserName());
+
+		return ResponseEntity.ok(body);
 	}
+
 }
