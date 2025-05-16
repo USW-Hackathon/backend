@@ -39,6 +39,14 @@ public class MemberService {
 		Authentication authentication = authenticationManager.authenticate(
 			new UsernamePasswordAuthenticationToken(memberId, password));
 
-		return jwtTokenProvider.generateToken(authentication);
+		TokenResponseDto token = jwtTokenProvider.generateToken(authentication);
+
+		return TokenResponseDto.builder()
+			.grantType("Bearer")
+			.accessToken(token.getAccessToken())
+			.refreshToken(token.getRefreshToken())
+			.userName(member.getUserName()) // 사용자 이름 추가
+			.build();
+
 	}
 }

@@ -65,4 +65,8 @@ public class Member implements UserDetails {
 		this.password = newPassword;
 	}
 
+	public String getUserName() {
+		return this.userName;
+	}
+
 }
