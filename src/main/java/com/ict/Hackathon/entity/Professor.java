@@ -23,6 +23,9 @@ public class Professor {
 	@Column(columnDefinition = "TEXT")
 	private String research;     // 전공 내용
 
+	@Column(columnDefinition = "TEXT",name = "image_url")
+	private String imageUrl;
+
 	private String email;
 	private String lab;
 	private String phone;

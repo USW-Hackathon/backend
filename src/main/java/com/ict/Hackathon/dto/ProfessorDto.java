@@ -13,6 +13,7 @@ public class ProfessorDto {
 	private final String division;
 	private final String majorName;
 	private final String research;
+	private final String imageUrl;
 	private final String email;
 	private final String lab;
 	private final String phone;
@@ -24,6 +25,7 @@ public class ProfessorDto {
 			.division(entity.getDivision())
 			.majorName(entity.getMajorName())
 			.research(entity.getResearch())
+			.imageUrl(entity.getImageUrl())
 			.email(entity.getEmail())
 			.lab(entity.getLab())
 			.phone(entity.getPhone())
