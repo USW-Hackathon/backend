@@ -10,8 +10,8 @@ public class ProfessorDto {
 
 	private final Long id;
 	private final String name;
-	private final String division;
-	private final String majorName;
+	private final int division;
+	private final int majorName;
 	private final String research;
 	private final String imageUrl;
 	private final String email;

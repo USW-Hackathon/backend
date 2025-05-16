@@ -17,8 +17,8 @@ public class Professor {
 	private Long id;
 
 	private String name;
-	private String division;     // 예: 컴퓨터학부
-	private String majorName;    // 예: 컴퓨터SW, 미디어SW
+	private int division;     // 예: 컴퓨터학부
+	private int majorName;    // 예: 컴퓨터SW, 미디어SW
 
 	@Column(columnDefinition = "TEXT")
 	private String research;     // 전공 내용
