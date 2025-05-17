@@ -32,6 +32,11 @@ public class SecurityConfig {
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		// CSRF 비활성화
 		http
+			.headers(headers -> headers
+				.frameOptions(frameOptions -> frameOptions
+						.deny() // 또는 sameOrigin()
+					)
+				)
 			.cors(cors -> cors.configurationSource(corsConfigurationSource()))
 			.csrf(csrf -> csrf.disable())  // CSRF 보호 비활성화
 			.authorizeHttpRequests(authz -> authz
